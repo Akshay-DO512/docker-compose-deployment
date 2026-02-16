@@ -6,12 +6,7 @@ services:
     networks:
       - 'n1'  
     volumes:
-      - './html:/usr/local/apache2/htdocs'
-    command: >
-       sh -c "
-       apt-get update &&
-       apt-get install awscli -y &&
-       aws s3 cp s3://akshay-vel-buk/index.html /usr/local/apache2/htdocs/index.html && httpd-foreground"  
+      - './storage/html:/usr/local/apache2/htdocs' 
 
   tomcat_service:
     image: 'tomcat:9'
@@ -20,13 +15,8 @@ services:
     networks:
       - 'n2'  
     volumes:
-      - './tomcat:/usr/local/tomcat/webapps'
-    command: >
-      sh -c "
-      apt-get update &&
-      apt-get install awscli -y &&
-      aws s3 cp s3://akshay-vel-buk/sample.war /usr/local/tomcat/webapps/sample.war && catalina.sh run"  
-
+      - './storage/tomcat:/usr/local/tomcat/webapps'
+    
 networks:
   n1:
     driver: 'bridge'
