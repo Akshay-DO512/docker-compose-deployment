@@ -1,0 +1,37 @@
+services:
+  httpd_service:
+    image: 'httpd:latest'
+    ports: 
+      - '8081:80'
+    networks:
+      - 'n1'  
+    volumes:
+      - './html:/usr/local/apache2/htdocs'
+    command: >
+       sh -c "
+       apt-get update &&
+       apt-get install awscli -y &&
+       aws s3 cp s3://akshay-vel-buk/index.html /usr/local/apache2/htdocs/index.html && httpd-foreground"  
+
+  tomcat_service:
+    image: 'tomcat:9'
+    ports:
+      - '8090:8080'
+    networks:
+      - 'n2'  
+    volumes:
+      - './tomcat:/usr/local/tomcat/webapps'
+    command: >
+      sh -c "
+      apt-get update &&
+      apt-get install awscli -y &&
+      aws s3 cp s3://akshay-vel-buk/sample.war /usr/local/tomcat/webapps/sample.war && catalina.sh run"  
+
+networks:
+  n1:
+    driver: 'bridge'
+
+  n2:
+    driver: 'bridge'
+
+
