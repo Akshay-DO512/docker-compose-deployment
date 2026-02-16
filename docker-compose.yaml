@@ -2,7 +2,7 @@ services:
   httpd_service:
     image: 'httpd:latest'
     ports: 
-      - '8081:80'
+      - '8082:80'
     networks:
       - 'n1'  
     volumes:
@@ -11,7 +11,7 @@ services:
   tomcat_service:
     image: 'tomcat:9'
     ports:
-      - '8090:8080'
+      - '8083:8080'
     networks:
       - 'n2'  
     volumes:
